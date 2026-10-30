@@ -1,6 +1,7 @@
 import 'server-only'
 import type { Sessao } from './auth'
 import type {
+  BicoTurno,
   Emprestimo,
   EncerranteAtual,
   EstoqueAtual,
@@ -28,6 +29,65 @@ export async function listarEncerrantes(supabase: Cliente, postoId: string) {
     .order('numero')
   if (error) console.error('[encerrantes]', error.message)
   return (data ?? []) as EncerranteAtual[]
+}
+
+/**
+ * Leituras do turno aberto. O turno começa no último fechamento salvo: a
+ * base de cada bico é a última leitura feita até esse fechamento; leituras
+ * posteriores já pertencem ao turno aberto (o caixa voltou à tela).
+ */
+export async function listarEncerrantesDoTurno(supabase: Cliente, postoId: string): Promise<BicoTurno[]> {
+  const [bicos, fechamento, leituras] = await Promise.all([
+    listarEncerrantes(supabase, postoId),
+    supabase
+      .from('lancamentos')
+      .select('criado_em')
+      .eq('posto_id', postoId)
+      .eq('tipo', 'fechamento')
+      .order('criado_em', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    supabase
+      .from('leituras_encerrantes')
+      .select('criado_em, leitura_itens (bico_id, valor)')
+      .eq('posto_id', postoId)
+      .order('criado_em', { ascending: false })
+      .limit(40),
+  ])
+  const inicioTurno = (fechamento.data as { criado_em: string } | null)?.criado_em ?? null
+  const lista = (leituras.data ?? []) as unknown as {
+    criado_em: string
+    leitura_itens: { bico_id: string; valor: number }[]
+  }[]
+
+  return bicos.map((b) => {
+    let base: { valor: number; em: string } | null = null
+    let atual: { valor: number; em: string } | null = null
+    for (const l of lista) {
+      const item = l.leitura_itens.find((i) => i.bico_id === b.bico_id)
+      if (!item) continue
+      const doTurnoAberto = inicioTurno !== null && l.criado_em > inicioTurno
+      if (doTurnoAberto) atual ??= { valor: item.valor, em: l.criado_em }
+      else {
+        base = { valor: item.valor, em: l.criado_em }
+        break
+      }
+    }
+    // leitura-base mais antiga que a janela consultada
+    if (!base && b.valor !== null && b.lido_em && (inicioTurno === null || b.lido_em <= inicioTurno) && !atual) {
+      base = { valor: b.valor, em: b.lido_em }
+    }
+    return {
+      bico_id: b.bico_id,
+      numero: b.numero,
+      descricao: b.descricao,
+      produto_codigo: b.produto_codigo,
+      base: base?.valor ?? null,
+      baseEm: base?.em ?? null,
+      atual: atual?.valor ?? null,
+      atualEm: atual?.em ?? null,
+    }
+  })
 }
 
 const SELECT_LANCAMENTO =

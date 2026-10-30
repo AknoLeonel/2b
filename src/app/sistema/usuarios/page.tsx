@@ -32,7 +32,11 @@ export default async function Usuarios() {
 
   return (
     <>
-      <TituloPagina titulo="Usuários" descricao="Crie acessos, redefina senhas e desative quem saiu da equipe." />
+      <TituloPagina
+        titulo="Usuários"
+        voltar={{ href: '/sistema', rotulo: 'Voltar para o início' }}
+        descricao="Crie acessos, redefina senhas e desative quem saiu da equipe."
+      />
       {!adminDisponivel ? (
         <Aviso tipo="atencao" className="mb-6">
           Para criar usuários e redefinir senhas, cadastre a variável <code>SUPABASE_SECRET_KEY</code> no servidor

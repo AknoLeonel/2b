@@ -89,13 +89,13 @@ export function FormLogin({
   return (
     <form onSubmit={entrar} className="mt-6 space-y-5" noValidate>
       <fieldset>
-        <legend className="rotulo">Perfil</legend>
-        <div className="grid grid-cols-3 gap-1 rounded-2xl bg-slate-200 p-1">
+        <legend className="rotulo">Quem é você?</legend>
+        <div className="grid gap-2">
           {PERFIS.map((p) => (
             <label
               key={p.valor}
-              className={`flex min-h-11 cursor-pointer items-center justify-center rounded-xl px-1 text-center text-sm font-bold transition has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-marca ${
-                perfil === p.valor ? 'bg-white text-marca shadow' : 'text-slate-600'
+              className={`flex min-h-16 cursor-pointer items-center gap-3 rounded-2xl border-2 px-4 py-3 transition has-[:focus-visible]:ring-3 has-[:focus-visible]:ring-marca ${
+                perfil === p.valor ? 'border-marca bg-marca-clara' : 'border-slate-400 bg-white hover:border-slate-600'
               }`}
             >
               <input
@@ -104,13 +104,15 @@ export function FormLogin({
                 value={p.valor}
                 checked={perfil === p.valor}
                 onChange={() => setPerfil(p.valor)}
-                className="sr-only"
+                className="size-6 shrink-0 accent-marca"
               />
-              {p.rotulo}
+              <span>
+                <span className="block text-lg font-extrabold text-tinta">{p.rotulo}</span>
+                <span className="block text-base text-slate-700">{p.dica}</span>
+              </span>
             </label>
           ))}
         </div>
-        <p className="mt-2 text-xs text-slate-500">{PERFIS.find((p) => p.valor === perfil)?.dica}</p>
       </fieldset>
 
       {perfil === 'gestor' ? (
@@ -167,7 +169,7 @@ export function FormLogin({
           <button
             type="button"
             onClick={() => setMostrarSenha((v) => !v)}
-            className="absolute inset-y-0 right-1 my-1 rounded-lg px-3 text-sm font-semibold text-slate-600 hover:bg-slate-100"
+            className="absolute inset-y-0 right-1 my-1 rounded-lg px-3 text-base font-bold text-slate-800 hover:bg-slate-100"
             aria-pressed={mostrarSenha}
           >
             {mostrarSenha ? 'Ocultar' : 'Mostrar'}
@@ -177,13 +179,13 @@ export function FormLogin({
 
       <div aria-live="assertive" className="min-h-0">
         {erro ? (
-          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-800">
+          <p role="alert" className="rounded-xl border-2 border-red-300 bg-red-50 p-3 text-lg font-bold text-red-800">
             {erro}
           </p>
         ) : null}
       </div>
 
-      <button type="submit" className="botao-primario w-full" disabled={enviando}>
+      <button type="submit" className="botao-primario min-h-16 w-full text-xl" disabled={enviando}>
         {enviando ? 'Entrando…' : 'Entrar'}
       </button>
     </form>

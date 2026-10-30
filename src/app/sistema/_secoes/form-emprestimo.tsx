@@ -54,8 +54,8 @@ export function FormEmprestimo({
   }
 
   return (
-    <form onSubmit={salvar} noValidate className="cartao p-4">
-      <h2 className="mb-3 text-lg font-extrabold text-tinta">Registrar novo empréstimo</h2>
+    <form onSubmit={salvar} noValidate className="cartao p-4 sm:p-5">
+      <h3 className="mb-3 text-xl font-extrabold text-tinta">Registrar novo empréstimo</h3>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <div>
           <label htmlFor="emp-data" className="rotulo">

@@ -49,6 +49,17 @@ const privateHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
+  // Telas antigas viraram seções da página inicial do sistema.
+  async redirects() {
+    return [
+      { source: '/sistema/fechamento', destination: '/sistema#turno', permanent: false },
+      { source: '/sistema/encerrantes', destination: '/sistema#turno', permanent: false },
+      { source: '/sistema/lancar', destination: '/sistema#turno', permanent: false },
+      { source: '/sistema/atualizacao', destination: '/sistema#atualizacao', permanent: false },
+      { source: '/sistema/emprestimos', destination: '/sistema#emprestimos', permanent: false },
+      { source: '/sistema/historico', destination: '/sistema#historico', permanent: false },
+    ]
+  },
   async headers() {
     return [
       { source: '/:path*', headers: securityHeaders },

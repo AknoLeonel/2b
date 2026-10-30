@@ -7,10 +7,12 @@ export function SeletorPosto({
   postos,
   atual,
   rotulo = 'Posto',
+  ancora,
 }: {
   postos: { slug: string; nome: string }[]
   atual: string
   rotulo?: string
+  ancora?: string
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -29,7 +31,7 @@ export function SeletorPosto({
         onChange={(e) => {
           const novo = new URLSearchParams(params.toString())
           novo.set('posto', e.target.value)
-          router.push(`${pathname}?${novo.toString()}`)
+          router.push(`${pathname}?${novo.toString()}${ancora ? `#${ancora}` : ''}`)
         }}
       >
         {postos.map((p) => (
