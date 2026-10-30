@@ -1,0 +1,27 @@
+# dependências
+/node_modules
+
+# build
+/.next/
+/out/
+/build
+*.tsbuildinfo
+next-env.d.ts
+
+# ambiente — NUNCA versionar chaves
+.env
+.env*.local
+.vercel
+
+# scripts locais com senhas
+scripts/*.local.json
+scripts/*.local.txt
+
+# exportações do Firebase (contêm dados operacionais)
+*.firebase.json
+firebase-export*.json
+importacao-firebase*.sql
+
+# sistema
+.DS_Store
+npm-debug.log*

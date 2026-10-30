@@ -1,0 +1,77 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-marca: #da291c;
+  --color-marca-escura: #b51d12;
+  --color-marca-clara: #fdecea;
+  --color-destaque: #ffd100;
+  --color-destaque-claro: #fff7cc;
+  --color-tinta: #1b1b1b;
+  --color-fundo: #f7f5f2;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-marca;
+  }
+
+  /* números alinhados em tabelas e painéis */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@utility campo {
+  @apply block min-h-12 w-full rounded-xl border-2 border-slate-300 bg-white px-3 text-base font-medium text-slate-900 placeholder:text-slate-400 focus:border-marca focus:outline-none disabled:bg-slate-100 disabled:text-slate-500;
+}
+
+@utility rotulo {
+  @apply mb-1 block text-sm font-semibold text-slate-700;
+}
+
+@utility botao {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 text-base font-bold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility botao-primario {
+  @apply botao bg-marca text-white shadow-sm hover:bg-marca-escura;
+}
+
+@utility botao-escuro {
+  @apply botao bg-tinta text-white shadow-sm hover:bg-black;
+}
+
+@utility botao-secundario {
+  @apply botao border-2 border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50;
+}
+
+@utility botao-whatsapp {
+  @apply botao bg-[#1f7a45] text-white shadow-sm hover:bg-[#186638];
+}
+
+@utility cartao {
+  @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
