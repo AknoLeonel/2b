@@ -31,8 +31,8 @@ export default async function PaginaLogin({ searchParams }: PageProps<'/login'>)
       </header>
 
       <div className="mx-auto w-full max-w-md flex-1 px-4 py-8">
-        <h1 className="text-2xl font-extrabold text-tinta">Acesso restrito</h1>
-        <p className="mt-1 text-sm text-slate-600">Escolha seu perfil e digite sua senha.</p>
+        <h1 className="text-3xl font-extrabold text-tinta">Entrar no sistema</h1>
+        <p className="mt-1 text-lg text-slate-700">Escolha quem é você, o posto e digite a senha.</p>
 
         {!supabaseConfigurado ? (
           <p role="alert" className="mt-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
@@ -47,7 +47,7 @@ export default async function PaginaLogin({ searchParams }: PageProps<'/login'>)
           />
         )}
 
-        <p className="mt-8 text-center text-xs text-slate-500">
+        <p className="mt-8 text-center text-base text-slate-700">
           Esqueceu a senha? Peça a um gestor para redefinir em <strong>Usuários</strong>.
         </p>
       </div>

@@ -20,14 +20,16 @@ Substitui o antigo `index.html`, que tinha as senhas escritas no próprio arquiv
 - Feito para o celular primeiro, sem JavaScript desnecessário (carrega rápido no 4G da estrada).
 
 **Sistema interno** (`/sistema`, instalável como app no celular)
-- **Painel**: nível de cada tanque com alerta crítico (< 15%) e de atenção (< 30%), estoque total da rede, média de venda por dia e **dias de cobertura** do estoque. Atualiza sozinho quando alguém lança dados.
-- **Encerrantes**: leitura por bico, mostra quantos litros saíram desde a última leitura e avisa quando a leitura é menor que a anterior.
-- **Fechamento de turno**: estoque inicial já vem preenchido com a última régua, o vendido pode ser puxado dos encerrantes, e o sistema calcula estoque final e diferença. Também avisa quando a variação passa de **0,6%** (tolerância usual do LMC). Ao salvar, gera o relatório para **WhatsApp** (botão de enviar ou copiar).
-- **Atualização rápida**: o gerente ou o gestor atualiza só a régua.
-- **Empréstimos**: transferências entre postos, devolução parcial, quitação, cancelamento (só gestor) e registro de quem fez cada ação.
-- **Histórico**: consulta por dia, para o LMC, e exportação em **CSV** (abre no Excel).
-- **Usuários** (gestor com acesso total): criar usuários, redefinir senha e desativar.
-- **Conta**: cada usuário troca a própria senha.
+
+Feito para quem tem pouca familiaridade com telas: **uma página só por perfil, para rolar de cima para baixo** (sem trocar de tela), com seções numeradas, uma barra de atalhos, letras e botões grandes e botões **A− / A+** para aumentar a letra. As tabelas seguem o **formato de planilha (Excel)** do sistema antigo: cabeçalho cinza, colunas calculadas em cinza, rodapé amarelo de total e **Enter descendo para a linha de baixo**.
+
+- **Caixa / Pista**: 1) leitura dos encerrantes, onde os litros de cada bico são calculados enquanto se digita; 2) planilha de fechamento (Conteúdo · Est. inicial · Descarga · Vendido · Est. final · Régua · Diferença). O estoque inicial vem da última régua e o **vendido é preenchido sozinho pelos encerrantes** (em azul, editável). Há aviso de diferença acima de **0,6%** (tolerância usual do LMC) e o botão verde **Salvar planilha e enviar no WhatsApp**. Depois vêm a situação dos tanques e o histórico do dia.
+- **Gerente**: situação dos tanques (nível, dias de cobertura e média de venda), atualização rápida da régua, fechamento de turno, empréstimos do posto e histórico.
+- **Gestor**: planilha da rede (posto × produto, colorida por nível, com total da rede), empréstimos de todos os postos e histórico de qualquer posto. Clicar no posto abre os detalhes.
+- **Empréstimos**: tabela de pendentes e quitados como no sistema antigo (no celular, cada empréstimo vira um quadro vertical), com devolução parcial, quitação, cancelamento (só gestor) e auditoria de cada ação.
+- **Histórico**: navegação por dia (◀ Anterior · Hoje · Próximo ▶), planilha dos lançamentos e grade de encerrantes por bico, além da exportação **CSV** para o Excel.
+- **Usuários** (gestor com acesso total) e **Minha senha**: links no rodapé.
+- As telas se atualizam sozinhas quando alguém lança dados (Supabase Realtime).
 
 ### Perfis e permissões
 

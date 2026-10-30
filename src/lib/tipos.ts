@@ -50,6 +50,18 @@ export interface EncerranteAtual {
   lido_em_anterior: string | null
 }
 
+/** Bico com a leitura-base do turno (até o último fechamento) e a leitura já lançada no turno aberto. */
+export interface BicoTurno {
+  bico_id: string
+  numero: number
+  descricao: string
+  produto_codigo: string | null
+  base: number | null
+  baseEm: string | null
+  atual: number | null
+  atualEm: string | null
+}
+
 export interface LancamentoItem {
   produto_codigo: string
   estoque_inicial: number | null

@@ -10,7 +10,7 @@ export default async function Conta() {
   const { perfil, postos } = await exigirSessao()
   return (
     <>
-      <TituloPagina titulo="Minha conta" />
+      <TituloPagina titulo="Minha conta" voltar={{ href: '/sistema', rotulo: 'Voltar para o início' }} />
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="cartao p-5" aria-labelledby="titulo-dados">
           <h2 id="titulo-dados" className="text-lg font-extrabold text-tinta">

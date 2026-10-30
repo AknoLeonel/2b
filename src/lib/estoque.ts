@@ -1,3 +1,5 @@
+import type { EstoqueAtual } from './tipos'
+
 export type Nivel = 'sem-dado' | 'sem-capacidade' | 'critico' | 'atencao' | 'ok'
 
 export function nivelDoTanque(
@@ -27,4 +29,16 @@ export function variacaoLmc(diferenca: number | null, inicial: number | null, de
   const base = (inicial ?? 0) + (descarga ?? 0)
   if (diferenca === null || base <= 0) return null
   return diferenca / base
+}
+
+/** Quantos tanques estão em nível crítico ou de atenção. */
+export function resumoAlertas(tanques: EstoqueAtual[]) {
+  let criticos = 0
+  let atencao = 0
+  for (const t of tanques) {
+    const { nivel } = nivelDoTanque(t.estoque, t.capacidade, t.alerta_critico_pct, t.alerta_atencao_pct)
+    if (nivel === 'critico') criticos++
+    if (nivel === 'atencao') atencao++
+  }
+  return { criticos, atencao }
 }

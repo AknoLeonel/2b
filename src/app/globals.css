@@ -8,6 +8,7 @@
   --color-destaque-claro: #fff7cc;
   --color-tinta: #1b1b1b;
   --color-fundo: #f7f5f2;
+  --color-excel: #217346;
 
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
@@ -18,6 +19,17 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* espaço da barra fixa de atalhos ao rolar até um campo ou seção */
+    scroll-padding-top: 5rem;
+  }
+
+  /* Tamanho de letra escolhido pelo usuário (botões A− / A+ do sistema) */
+  html[data-letra='1'] {
+    font-size: 112.5%;
+  }
+  html[data-letra='2'] {
+    font-size: 125%;
   }
 
   body {
@@ -25,7 +37,7 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-marca;
+    @apply outline-3 outline-offset-2 outline-marca;
   }
 
   /* números alinhados em tabelas e painéis */
@@ -35,15 +47,15 @@
 }
 
 @utility campo {
-  @apply block min-h-12 w-full rounded-xl border-2 border-slate-300 bg-white px-3 text-base font-medium text-slate-900 placeholder:text-slate-400 focus:border-marca focus:outline-none disabled:bg-slate-100 disabled:text-slate-500;
+  @apply block min-h-13 w-full rounded-xl border-2 border-slate-500 bg-white px-3 text-lg font-medium text-slate-900 placeholder:text-slate-500 focus:border-marca focus:outline-none disabled:bg-slate-100 disabled:text-slate-600;
 }
 
 @utility rotulo {
-  @apply mb-1 block text-sm font-semibold text-slate-700;
+  @apply mb-1 block text-base font-bold text-slate-800;
 }
 
 @utility botao {
-  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 text-base font-bold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60;
+  @apply inline-flex min-h-13 items-center justify-center gap-2 rounded-xl px-5 text-lg font-bold transition active:scale-[.98] disabled:cursor-not-allowed disabled:opacity-60;
 }
 
 @utility botao-primario {
@@ -55,7 +67,7 @@
 }
 
 @utility botao-secundario {
-  @apply botao border-2 border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50;
+  @apply botao border-2 border-slate-500 bg-white text-slate-900 hover:bg-slate-50;
 }
 
 @utility botao-whatsapp {
@@ -63,10 +75,152 @@
 }
 
 @utility cartao {
-  @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  @apply rounded-2xl border border-slate-300 bg-white shadow-sm;
+}
+
+/* ---------------------------------------------------------------------
+   Planilha (formato Excel): cabeçalho cinza, células com borda, colunas
+   calculadas em cinza, rodapé amarelo e seleção verde ao digitar.
+   --------------------------------------------------------------------- */
+@layer components {
+  .moldura-planilha {
+    overflow-x: auto;
+    border: 1px solid var(--color-slate-400);
+    border-radius: 0.75rem;
+    background: white;
+    overscroll-behavior-x: contain;
+  }
+
+  .planilha {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-variant-numeric: tabular-nums;
+    font-size: 1rem;
+  }
+
+  .planilha th,
+  .planilha td {
+    border-right: 1px solid var(--color-slate-300);
+    border-bottom: 1px solid var(--color-slate-300);
+    background: white;
+  }
+
+  .planilha tr > :last-child {
+    border-right: 0;
+  }
+
+  .planilha thead th {
+    background: var(--color-slate-200);
+    color: var(--color-slate-900);
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    padding: 0.625rem 0.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.25;
+  }
+
+  .planilha tbody th,
+  .planilha td.texto {
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+  }
+
+  .planilha tbody th {
+    font-weight: 800;
+    color: var(--color-slate-900);
+  }
+
+  /* primeira coluna fixa ao arrastar a tabela para o lado */
+  .planilha .fixa {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    box-shadow: inset -1px 0 0 var(--color-slate-400);
+  }
+
+  .planilha thead .fixa {
+    background: var(--color-slate-200);
+  }
+
+  .planilha td.num {
+    padding: 0.5rem 0.75rem;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .planilha td.calc,
+  .planilha th.calc {
+    background: var(--color-slate-100);
+    font-weight: 800;
+  }
+
+  .planilha thead th.calc {
+    background: var(--color-slate-300);
+  }
+
+  .planilha td.entrada {
+    padding: 0;
+    min-width: 6.5rem;
+  }
+
+  .planilha td.entrada input {
+    display: block;
+    width: 100%;
+    min-height: 3.5rem;
+    border: 0;
+    background: transparent;
+    padding: 0 0.75rem;
+    text-align: right;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--color-slate-900);
+  }
+
+  .planilha td.entrada input::placeholder {
+    color: var(--color-slate-500);
+    font-weight: 500;
+  }
+
+  .planilha td.entrada input:focus {
+    outline: 3px solid var(--color-excel);
+    outline-offset: -3px;
+    background: #f0fdf4;
+  }
+
+  .planilha td.entrada.auto {
+    background: #e0f2fe;
+  }
+
+  .planilha td.entrada.invalida {
+    background: #fee2e2;
+  }
+
+  .planilha tfoot td,
+  .planilha tfoot th {
+    background: var(--color-destaque);
+    color: var(--color-tinta);
+    font-size: 1.0625rem;
+    font-weight: 900;
+    padding: 0.75rem;
+  }
+
+  .planilha tbody tr:hover > * {
+    background-color: var(--color-slate-50);
+  }
+
+  .planilha tbody tr:hover > .calc {
+    background-color: var(--color-slate-100);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {

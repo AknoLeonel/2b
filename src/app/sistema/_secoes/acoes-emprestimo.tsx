@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useTransition } from 'react'
+import { useId, useRef, useState, useTransition } from 'react'
 import { CampoNumero } from '@/components/sistema/campo-numero'
 import { Aviso } from '@/components/sistema/ui'
 import { fmtVolume } from '@/lib/formato'
@@ -17,6 +17,7 @@ const TITULOS: Record<Modo, string> = {
 }
 
 export function AcoesEmprestimo({ emprestimo, podeCancelar }: { emprestimo: Emprestimo; podeCancelar: boolean }) {
+  const uid = useId()
   const dialogo = useRef<HTMLDialogElement>(null)
   const [modo, setModo] = useState<Modo>('devolucao')
   const [volume, setVolume] = useState('')
@@ -54,26 +55,22 @@ export function AcoesEmprestimo({ emprestimo, podeCancelar }: { emprestimo: Empr
 
   return (
     <>
-      <div className="mt-3 flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => abrir('devolucao')}
-          className="botao-secundario min-h-11 flex-1 px-3 text-sm"
-        >
-          Devolução parcial
+      <div className="flex min-w-40 flex-col gap-1.5">
+        <button type="button" onClick={() => abrir('devolucao')} className="botao-secundario min-h-11 px-3 text-base">
+          Devolver uma parte
         </button>
         <button
           type="button"
           onClick={() => abrir('quitar')}
-          className="botao min-h-11 flex-1 bg-emerald-600 px-3 text-sm text-white hover:bg-emerald-700"
+          className="botao min-h-11 bg-emerald-700 px-3 text-base text-white hover:bg-emerald-800"
         >
-          Quitar
+          Quitar tudo
         </button>
         {podeCancelar ? (
           <button
             type="button"
             onClick={() => abrir('cancelar')}
-            className="min-h-11 rounded-xl px-3 text-sm font-semibold text-red-700 hover:bg-red-50"
+            className="min-h-11 rounded-xl px-3 text-base font-bold text-red-800 underline hover:bg-red-50"
           >
             Cancelar
           </button>
@@ -83,14 +80,14 @@ export function AcoesEmprestimo({ emprestimo, podeCancelar }: { emprestimo: Empr
       <dialog
         ref={dialogo}
         className="m-auto w-[min(28rem,calc(100%-2rem))] rounded-2xl p-0 shadow-2xl backdrop:bg-black/60"
-        aria-labelledby={`dlg-${emprestimo.id}`}
+        aria-labelledby={`${uid}-titulo`}
       >
         <form onSubmit={confirmar} className="space-y-4 p-5">
           <div>
-            <h3 id={`dlg-${emprestimo.id}`} className="text-lg font-extrabold text-tinta">
+            <h3 id={`${uid}-titulo`} className="text-xl font-extrabold text-tinta">
               {TITULOS[modo]}
             </h3>
-            <p className="text-sm text-slate-600">
+            <p className="text-base text-slate-800">
               {emprestimo.produto_nome}: {emprestimo.origem_nome} → {emprestimo.destino_nome}. Saldo{' '}
               <strong>{fmtVolume(emprestimo.saldo)}</strong>.
             </p>
@@ -101,11 +98,11 @@ export function AcoesEmprestimo({ emprestimo, podeCancelar }: { emprestimo: Empr
           ) : null}
 
           <div>
-            <label htmlFor={`txt-${emprestimo.id}`} className="rotulo">
+            <label htmlFor={`${uid}-texto`} className="rotulo">
               {modo === 'cancelar' ? 'Motivo do cancelamento (obrigatório)' : 'Observação (opcional)'}
             </label>
             <input
-              id={`txt-${emprestimo.id}`}
+              id={`${uid}-texto`}
               className="campo"
               maxLength={500}
               value={texto}

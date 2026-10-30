@@ -38,9 +38,15 @@ export const viewport: Viewport = {
   colorScheme: 'light',
 }
 
+// Aplica o tamanho de letra escolhido no sistema (A− / A+) antes de desenhar a tela.
+const SCRIPT_LETRA = `try{var n=localStorage.getItem('postos2b:letra');if(n==='1'||n==='2')document.documentElement.dataset.letra=n}catch(e){}`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_LETRA }} />
+      </head>
       <body>{children}</body>
     </html>
   )

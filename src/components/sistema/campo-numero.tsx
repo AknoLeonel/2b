@@ -30,7 +30,7 @@ export function CampoNumero({
 
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-xs font-bold text-slate-600">
+      <label htmlFor={id} className="rotulo">
         {rotulo}
       </label>
       <div className="relative">
@@ -49,15 +49,15 @@ export function CampoNumero({
           aria-describedby={dica || invalido ? `${id}-dica` : undefined}
           autoFocus={autoFocus}
         />
-        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm font-semibold text-slate-400">
+        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-base font-semibold text-slate-600">
           {unidade}
         </span>
       </div>
-      <div id={`${id}-dica`} className="mt-1 min-h-4 text-xs">
+      <div id={`${id}-dica`} className="mt-1 min-h-5 text-sm">
         {invalido ? (
           <span className="font-semibold text-red-700">Número inválido</span>
         ) : mostrarInterpretado ? (
-          <span className="text-slate-500">
+          <span className="text-slate-700">
             = {fmtNumero(numero, casas)} {unidade}
           </span>
         ) : (
